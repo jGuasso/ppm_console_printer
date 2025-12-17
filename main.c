@@ -5,6 +5,10 @@ bool menu(ppm_info f_info){
     printf("-------MENU-------\n");
     printf(" 1. PRINT\n");
     printf(" 2. GREYSCALE\n");
+    printf(" 3. NEGATIVO\n");
+    printf(" 4. NEGATIVO VERMELHO\n");
+    printf(" 5. NEGATIVO VERDE\n");
+    printf(" 6. NEGATIVO AZUL\n");
     printf(" 0. SAIR\n");
     int op;
     scanf("%d",&op);
@@ -16,6 +20,18 @@ bool menu(ppm_info f_info){
         break;
     case 2:
         greyScale(f_info);
+        break;
+    case 3:
+        negative(f_info);
+        break;
+    case 4:
+        negativeRed(f_info);
+        break;
+    case 5:
+        negativeGreen(f_info);
+        break;
+    case 6:
+        negativeBlue(f_info);
         break;
     case 0: 
         return false;

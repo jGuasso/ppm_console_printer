@@ -81,6 +81,48 @@ void greyScale(ppm_info f_info){
     
 }
 
+void negativeRed(ppm_info f_info){
+    for (int i = 0; i < f_info.height; i++)
+    {
+        for (int j = 0; j < f_info.width; j++)
+        {
+            f_info.grid[i][j].r = f_info.maxval - f_info.grid[i][j].r;
+        }
+    }
+}
+
+void negativeGreen(ppm_info f_info){
+    for (int i = 0; i < f_info.height; i++)
+    {
+        for (int j = 0; j < f_info.width; j++)
+        {
+            f_info.grid[i][j].g = f_info.maxval - f_info.grid[i][j].g;
+        }
+    }
+}
+
+void negativeBlue(ppm_info f_info){
+    for (int i = 0; i < f_info.height; i++)
+    {
+        for (int j = 0; j < f_info.width; j++)
+        {
+            f_info.grid[i][j].b = f_info.maxval - f_info.grid[i][j].b;
+        }
+    }
+}
+
+void negative(ppm_info f_info){
+    for (int i = 0; i < f_info.height; i++)
+    {
+        for (int j = 0; j < f_info.width; j++)
+        {
+            f_info.grid[i][j].r = f_info.maxval - f_info.grid[i][j].r;
+            f_info.grid[i][j].g = f_info.maxval - f_info.grid[i][j].g;
+            f_info.grid[i][j].b = f_info.maxval - f_info.grid[i][j].b;
+        }
+    }
+}
+
 void print_ppm_file(ppm_info f_info){
     for (int i = 0; i < f_info.height; i++)
     {
