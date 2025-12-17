@@ -1,4 +1,26 @@
 #include "ppm_console_printer.h"
+#include <stdbool.h>
+
+bool menu(ppm_info f_info){
+    printf("-------MENU-------\n");
+    printf(" 1. PRINT\n");
+    printf(" 0. SAIR\n");
+    int op;
+    scanf("%d",&op);
+    switch (op)
+    {
+    case 1:
+        print_ppm_file(f_info);
+        printf("\nFormato:%s, Tamanho:%dx%d, Valor maximo:%d\n",f_info.format,f_info.width,f_info.height,f_info.maxval);
+        break;
+    case 0: 
+        return false;
+        break;
+    default:
+        break;
+    }
+    return true;
+}
 
 int main(){
     printf("Escreva o nome do arquivo:");
@@ -9,10 +31,8 @@ int main(){
         printf("Erro ao abrir o arquivo.\n");
         return 1;
     }
-    ppm_info f_info = print_ppm_file(file);
-    
-    printf("\nFormato:%s, Tamanho:%dx%d, Valor máximo:%d",f_info.format,f_info.width,f_info.height,f_info.maxval);
-
+    ppm_info f_info = carregar_imagem(file);
     fclose(file);
+    while (menu(f_info));
     return 0;
 }

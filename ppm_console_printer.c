@@ -1,32 +1,77 @@
 #include "ansi_colors.h"
 #include "ppm_console_printer.h"
 
-ppm_info print_ppm_file(FILE*file){
-    ppm_info f_info;
-    fscanf(file, "%s", f_info.format);//O aceito pelo programa é somente o P6
-    fscanf(file, "%d %d", &f_info.width, &f_info.height);
-    fscanf(file, "%d", &f_info.maxval);
-    fgetc(file);
-    if (f_info.format[1]=='3')
-    {
-        printf("Formato de arquivo errado! a bibllioteca só aceita formato P6!!\n");
-        return f_info;
-    }
-    unsigned char *pixels = (unsigned char *)malloc(3 * f_info.width * f_info.height);
-    if (pixels == NULL) {
-        printf("Erro ao alocar memória.\n");
-        return f_info;
-    }
-    fread(pixels, 3, f_info.width * f_info.height, file);
-
+void _carregar_p3_(FILE*file, ppm_info f_info){
     for (int y = 0; y < f_info.height; y++) {
         for (int x = 0; x < f_info.width; x++) {
-            int index = (y * f_info.height + x) * 3;
-            printf("%s  ",bg_color(pixels[index], pixels[index + 1], pixels[index + 2]));
+            fscanf(file,"%d %d %d",&f_info.grid[y][x].r, &f_info.grid[y][x].g, &f_info.grid[y][x].b);
         }
-        printf("\n");
+    }
+    return;
+}
+
+void _carregar_p6_(FILE*file, ppm_info f_info){
+    for (int i = 0; i < f_info.height; i++)
+    {
+        for (int j = 0; j < f_info.width; j++)
+        {
+            fread(&f_info.grid[i][j].r, sizeof(unsigned char), 1, file);
+            fread(&f_info.grid[i][j].g, sizeof(unsigned char), 1, file);
+            fread(&f_info.grid[i][j].b, sizeof(unsigned char), 1, file);
+        }
+    }
+    return;
+}
+
+void print_ppm_file(ppm_info f_info){
+    for (int i = 0; i < f_info.height; i++)
+    {
+        for (int j = 0; j < f_info.width; j++)
+        {
+            printf("%s  ",bg_color(f_info.grid[i][j].r, f_info.grid[i][j].g, f_info.grid[i][j].b));
+        }
+        printf(RESET"\n");
+    }
+    return;
+}
+
+ppm_info carregar_imagem(FILE* file){
+    rewind(file);
+    ppm_info f_info;
+    
+    // Inicializa o ponteiro como NULL para segurança
+    f_info.grid = NULL;
+
+    if (fscanf(file, "%s", f_info.format) != 1) return f_info;
+    fscanf(file, "%d %d", &f_info.width, &f_info.height);
+    fscanf(file, "%d", &f_info.maxval);
+    fgetc(file); // Pula o whitespace após o maxval
+
+    // Alocação da matriz
+    f_info.grid = (pixel**)malloc(sizeof(pixel*) * f_info.height);
+    if (f_info.grid == NULL) {
+        printf("Erro ao alocar linhas.\n");
+        return f_info; 
+    }
+    for (int i = 0; i < f_info.height; i++) {
+        f_info.grid[i] = (pixel*)malloc(sizeof(pixel) * f_info.width);
+        if (f_info.grid[i] == NULL) {
+            printf("Erro ao alocar colunas.\n");
+            return f_info;
+        }
     }
 
-    free(pixels);
-    
+    switch (f_info.format[1]) {
+        case '3':
+            _carregar_p3_(file, f_info);
+            break;
+        case '6':
+            _carregar_p6_(file, f_info);
+            break;
+        default:
+            printf("Formato de arquivo invalido!\n");
+            break;
+    }
+
+    return f_info; // FALTAVA ISSO
 }

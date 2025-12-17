@@ -4,8 +4,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//biblioteca criada para PRINTAR arquivos .ppm tipo P6 no terminal
+//biblioteca criada para PRINTAR arquivos .ppm no terminal
 //João Antônio Guerim Guasso
+
+typedef struct
+{
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
+}pixel;
 
 typedef struct
 {
@@ -13,8 +20,10 @@ typedef struct
     int width;
     int height;
     int maxval;
+    pixel** grid;
 }ppm_info;
 
-ppm_info print_ppm_file(FILE*file);
+ppm_info carregar_imagem(FILE* file);
+void print_ppm_file(ppm_info f_info);
 
 #endif //PPM_CONSOLE_PRINTER_H
