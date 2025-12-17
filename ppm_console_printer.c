@@ -23,18 +23,6 @@ void _carregar_p6_(FILE*file, ppm_info f_info){
     return;
 }
 
-void print_ppm_file(ppm_info f_info){
-    for (int i = 0; i < f_info.height; i++)
-    {
-        for (int j = 0; j < f_info.width; j++)
-        {
-            printf("%s  ",bg_color(f_info.grid[i][j].r, f_info.grid[i][j].g, f_info.grid[i][j].b));
-        }
-        printf(RESET"\n");
-    }
-    return;
-}
-
 ppm_info carregar_imagem(FILE* file){
     rewind(file);
     ppm_info f_info;
@@ -73,5 +61,34 @@ ppm_info carregar_imagem(FILE* file){
             break;
     }
 
-    return f_info; // FALTAVA ISSO
+    return f_info;
+}
+
+void greyScale(ppm_info f_info){
+    unsigned char cinza;
+    pixel *p;
+    for (int i = 0; i < f_info.height; i++)
+    {
+        for (int j = 0; j < f_info.width; j++)
+        {
+            p = &f_info.grid[i][j];
+            cinza = (p->r + p->g + p->b)/3;
+            p->r=cinza;
+            p->g=cinza;
+            p->b=cinza;
+        }
+    }
+    
+}
+
+void print_ppm_file(ppm_info f_info){
+    for (int i = 0; i < f_info.height; i++)
+    {
+        for (int j = 0; j < f_info.width; j++)
+        {
+            printf("%s  ",bg_color(f_info.grid[i][j].r, f_info.grid[i][j].g, f_info.grid[i][j].b));
+        }
+        printf(RESET"\n");
+    }
+    return;
 }

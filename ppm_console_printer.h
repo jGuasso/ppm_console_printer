@@ -25,5 +25,6 @@ typedef struct
 
 ppm_info carregar_imagem(FILE* file);
 void print_ppm_file(ppm_info f_info);
+void greyScale(ppm_info f_info);
 
 #endif //PPM_CONSOLE_PRINTER_H
