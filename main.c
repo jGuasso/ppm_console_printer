@@ -2,13 +2,14 @@
 #include <stdbool.h>
 
 bool menu(ppm_info f_info){
-    printf("-------MENU-------\n");
+    printf("\n");
     printf(" 1. PRINT\n");
-    printf(" 2. GREYSCALE\n");
-    printf(" 3. NEGATIVO\n");
-    printf(" 4. NEGATIVO VERMELHO\n");
-    printf(" 5. NEGATIVO VERDE\n");
-    printf(" 6. NEGATIVO AZUL\n");
+    printf(" 2. SALVAR\n");
+    printf(" 3. GREYSCALE\n");
+    printf(" 4. NEGATIVO\n");
+    printf(" 5. NEGATIVO VERMELHO\n");
+    printf(" 6. NEGATIVO VERDE\n");
+    printf(" 7. NEGATIVO AZUL\n");
     printf(" 0. SAIR\n");
     int op;
     scanf("%d",&op);
@@ -16,24 +17,28 @@ bool menu(ppm_info f_info){
     {
     case 1:
         print_ppm_file(f_info);
-        printf("\nFormato:%s, Tamanho:%dx%d, Valor maximo:%d\n",f_info.format,f_info.width,f_info.height,f_info.maxval);
         break;
     case 2:
+        char filename[100];
+        printf("Nome do arquivo:\n");
+        scanf("%s",filename);
+        salvar_ppm_file(f_info,filename);
+    case 3:
         greyScale(f_info);
         break;
-    case 3:
+    case 4:
         negative(f_info);
         break;
-    case 4:
+    case 5:
         negativeRed(f_info);
         break;
-    case 5:
+    case 6:
         negativeGreen(f_info);
         break;
-    case 6:
+    case 7:
         negativeBlue(f_info);
         break;
-    case 0: 
+     case 0: 
         return false;
         break;
     default:
@@ -52,6 +57,7 @@ int main(){
         return 1;
     }
     ppm_info f_info = carregar_imagem(file);
+    printf("\nFormato:%s, Tamanho:%dx%d, Valor maximo:%d\n",f_info.format,f_info.width,f_info.height,f_info.maxval);
     fclose(file);
     while (menu(f_info));
     return 0;

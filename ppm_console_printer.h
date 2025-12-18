@@ -30,5 +30,6 @@ void negativeRed(ppm_info f_info);
 void negativeGreen(ppm_info f_info);
 void negativeBlue(ppm_info f_info);
 void negative(ppm_info f_info);
+void salvar_ppm_file(ppm_info f_info, char filename[100]);
 
 #endif //PPM_CONSOLE_PRINTER_H

@@ -11,14 +11,9 @@ void _carregar_p3_(FILE*file, ppm_info f_info){
 }
 
 void _carregar_p6_(FILE*file, ppm_info f_info){
-    for (int i = 0; i < f_info.height; i++)
+    for (int y = 0; y < f_info.height; y++)
     {
-        for (int j = 0; j < f_info.width; j++)
-        {
-            fread(&f_info.grid[i][j].r, sizeof(unsigned char), 1, file);
-            fread(&f_info.grid[i][j].g, sizeof(unsigned char), 1, file);
-            fread(&f_info.grid[i][j].b, sizeof(unsigned char), 1, file);
-        }
+        fread(f_info.grid[y], sizeof(pixel), f_info.width, file);
     }
     return;
 }
@@ -133,4 +128,54 @@ void print_ppm_file(ppm_info f_info){
         printf(RESET"\n");
     }
     return;
+}
+
+void _salvar_p3_(ppm_info f_info, FILE* file){
+    pixel *p;
+    for (int y = 0; y < f_info.height; y++)
+    {
+        for (int x = 0; x < f_info.width; x++)
+        {
+            p = &f_info.grid[y][x];
+            fprintf(file,"%d %d %d",p->r,p->g,p->b);
+            if (x<f_info.width-1)
+            {
+                fprintf(file," ");
+            }
+        }
+        if (y<f_info.height-1)
+        {
+            fprintf(file,"\n");
+        }
+    }
+}
+
+void _salvar_p6_(ppm_info f_info, FILE* file){
+    for (int y = 0; y < f_info.height; y++)
+    {
+        fwrite(f_info.grid[y], sizeof(pixel), f_info.width, file);
+    }
+}
+
+void salvar_ppm_file(ppm_info f_info, char filename[100]){
+    FILE *file = fopen(filename, "wb");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return;
+    }
+    fprintf(file,"%s\n",f_info.format);
+    fprintf(file,"%d %d\n",f_info.width,f_info.height);
+    fprintf(file,"%d\n",f_info.maxval);
+    switch (f_info.format[1])
+    {
+    case '3':
+        _salvar_p3_(f_info,file);
+        break;
+    case '6':
+        _salvar_p6_(f_info,file);
+        break;
+    default:
+        break;
+    }
+    fclose(file);
 }
