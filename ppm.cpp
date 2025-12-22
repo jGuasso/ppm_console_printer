@@ -120,5 +120,34 @@ void ppm::negative(){
 }
 
 void ppm::saveFile(std::string filename){
-    std::cout << "Nao feito ainda" << std::endl;
+    std::ofstream file(filename, std::ios::binary);
+
+    if (!file.is_open()) {
+        std::cerr << "Erro ao criar o arquivo: " << filename << std::endl;
+        return;
+    }
+
+    //Cabeçalho
+    file << this->format << "\n";
+    file << this->width << " " << this->height << "\n";
+    file << this->maxval << "\n";
+
+    if (this->format[1] == '3') {
+        for (int y = 0; y < this->height; y++) {
+            for (int x = 0; x < this->width; x++) {
+
+                file << (int)this->grid[y][x].r << " "
+                     << (int)this->grid[y][x].g << " "
+                     << (int)this->grid[y][x].b;
+                
+                if (x < this->width - 1) file << "  ";
+            }
+            file << "\n";
+        }
+    }
+    else if (this->format[1] == '6') {
+        for (int y = 0; y < this->height; y++) {
+            file.write(reinterpret_cast<const char*>(this->grid[y].data()), this->width * sizeof(pixel));
+        }
+    }
 }

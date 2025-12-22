@@ -21,6 +21,7 @@ bool menu(ppm& img){
         break;
     case 2: {
         std::string filename;
+        std::cout << "Nome do arquivo:\n";
         std::cin >> filename;
         img.saveFile(filename);
         break;
