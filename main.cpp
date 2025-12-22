@@ -53,7 +53,7 @@ int main(){
     std::cout << "Escreva o nome do arquivo: ";
     std::string filename;
     std::cin >> filename;
-    std::ifstream file(filename);
+    std::ifstream file(filename, std::ios::binary);
     ppm img(file);
     std::cout << "\nFormato:" << img.getFormat();
     std::cout << " Tamanho:" << img.getHeight() << "x" << img.getWidth();
