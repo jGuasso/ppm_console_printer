@@ -4,35 +4,42 @@
 
 ppm::ppm(std::ifstream& file)
 {
+    if (!file.is_open()) return;
+
     file.clear(); 
     file.seekg(0, std::ios::beg);
 
-    /*Cabeçalho*/
-    //Formato
+    /* Cabeçalho */
     if (!(file >> this->format)) return;
-    // Width x Height
     if (!(file >> this->width)) return;
     if (!(file >> this->height)) return;
-    //Maxval
     if (!(file >> this->maxval)) return;
-    //Aloca grid
-    this->grid = std::vector<std::vector<pixel>>(height,std::vector<pixel>(width));
     
-    //Pula espaço em branco
-    file.ignore();
+    // Aloca grid
+    this->grid = std::vector<std::vector<pixel>>(height, std::vector<pixel>(width));
+    
+    //Pula espaçoes em branco
+    file >> std::ws; 
 
-    //P3
-    if(this->format[1]=='3')
+    // P3 - ASCII
+    if(this->format[1] == '3')
     {
         for (int y = 0; y < this->height; y++)
         {
             for (int x = 0; x < this->width; x++)
             {
-                file >> this->grid[y][x].r >> this->grid[y][x].g >> this->grid[y][x].b;
+                int r, g, b;
+                if (file >> r >> g >> b) {
+                    this->grid[y][x].r = static_cast<unsigned __int8>(r);
+                    this->grid[y][x].g = static_cast<unsigned __int8>(g);
+                    this->grid[y][x].b = static_cast<unsigned __int8>(b);
+                }
             }
         }
-    //P6
-    }else if(this->format[1]=='6'){
+    }
+    // P6 - Binário
+    else if(this->format[1] == '6')
+    {
         for (int y = 0; y < this->height; y++)
         {
             file.read(reinterpret_cast<char*>(this->grid[y].data()), this->width * sizeof(pixel));

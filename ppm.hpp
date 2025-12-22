@@ -6,7 +6,7 @@
 
 struct pixel
 {
-    unsigned char r,g,b;
+    unsigned __int8 r,g,b;
 };
 
 class ppm

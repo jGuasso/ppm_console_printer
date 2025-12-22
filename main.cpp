@@ -56,8 +56,8 @@ int main(){
     std::ifstream file(filename);
     ppm img(file);
     std::cout << "\nFormato:" << img.getFormat();
-    std::cout << "Tamanho:" << img.getHeight() << "x" << img.getWidth();
-    std::cout << "Valor Máximo:" << img.getMaxval() << std::endl;
+    std::cout << " Tamanho:" << img.getHeight() << "x" << img.getWidth();
+    std::cout << " Valor Maximo:" << img.getMaxval() << std::endl;
     file.close();
     while (menu(img));
     

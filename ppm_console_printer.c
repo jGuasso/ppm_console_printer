@@ -125,7 +125,7 @@ void print_ppm_file(ppm_info f_info){
         {
             printf("%s  ",bg_color(f_info.grid[i][j].r, f_info.grid[i][j].g, f_info.grid[i][j].b));
         }
-        printf(RESET"\n");
+        printf(RESET_CONSOLE"\n");
     }
     return;
 }
