@@ -1,0 +1,33 @@
+# Variáveis de Compilação
+CC = gcc
+CXX = g++
+CFLAGS = -Wall -O3
+CXXFLAGS = -Wall -O3 -std=c++17
+TARGET = ppm_printer
+
+# Lista de arquivos objeto
+OBJS = main.o ppm.o ansi_colors.o
+
+# Regra principal (Linkagem final)
+$(TARGET): $(OBJS)
+	$(CXX) $(OBJS) -o $(TARGET)
+
+# Compilação do main.cpp
+main.o: main.cpp ppm.hpp
+	$(CXX) $(CXXFLAGS) -c main.cpp
+
+# Compilação da classe ppm (C++)
+ppm.o: ppm.cpp ppm.hpp ansi_colors.h
+	$(CXX) $(CXXFLAGS) -c ppm.cpp
+
+# Compilação da biblioteca de cores (C)
+ansi_colors.o: ansi_colors.c ansi_colors.h
+	$(CC) $(CFLAGS) -c ansi_colors.c
+
+# Limpeza dos arquivos temporários
+clean:
+	rm -f $(OBJS) $(TARGET)
+
+# Rodar o programa
+run: $(TARGET)
+	./$(TARGET)

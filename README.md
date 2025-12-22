@@ -1,41 +1,44 @@
-# PPM Console Printer
+# PPM Console Printer (C++ Version)
 
-Este projeto é uma ferramenta desenvolvida em C para carregar, processar e visualizar imagens no formato **PPM (Portable Pixmap)** diretamente no terminal, utilizando sequências de escape ANSI para a representação de cores.
+Este projeto é uma ferramenta desenvolvida em C++ para carregar, processar e visualizar imagens no formato **PPM (Portable Pixmap)** diretamente no terminal, utilizando sequências de escape ANSI para representação de cores True Color.
 
 ## 🚀 Funcionalidades
 
-* **Leitura de Arquivos**: Suporte para os formatos **P3** (ASCII) e **P6** (Binário).
-* **Visualização no Console**: Renderização da imagem no terminal através de cores de fundo RGB.
-* **Processamento de Imagem**:
+* **Leitura de Arquivos**: Suporte para formatos **P3** (ASCII) e **P6** (Binário) utilizando `std::ifstream`.
+* **Visualização no Console**: Renderização da imagem no terminal através de cores de fundo RGB via códigos ANSI.
+* **Processamento de Imagem (OO)**:
     * **Filtro GreyScale**: Converte a imagem para tons de cinza.
     * **Negativo Total**: Inverte todas as cores da imagem.
-    * **Negativo Seletivo**: Inverte apenas os canais de cor individuais (Vermelho, Verde ou Azul).
-* **Exportação**: Permite salvar a imagem processada em novos arquivos `.ppm` nos formatos P3 ou P6.
+    * **Negativos Seletivos**: Inversão individual de canais (R, G ou B).
+* **Exportação**: Salva imagens processadas em novos arquivos `.ppm` (P3 ou P6).
 
-## 🛠️ Como Compilar
+## 🛠️ Tecnologias Utilizadas
 
-Para compilar o projeto, utilize um compilador de C (como o GCC) integrando todos os módulos:
-
-gcc main.c ppm_console_printer.c ansi_colors.c -o ppm_printer
+* **C++11/17**: Core do sistema e manipulação de arquivos.
+* **STL (Standard Template Library)**: Uso de `std::vector` para gerenciamento automático de memória da matriz de pixels.
+* **Integração C/C++**: Módulos de cores ANSI mantidos em C para performance e compatibilidade.
 
 ## 📂 Estrutura do Projeto
 
-* **main.c**: Contém o ponto de entrada do programa e a interface do menu interativo.
-* **ppm_console_printer.c / .h**: Implementa a lógica de carregamento, alocação de memória dinâmica para a matriz de pixels, filtros e escrita de arquivos.
-* **ansi_colors.c / .h**: Biblioteca auxiliar para converter valores RGB em códigos ANSI compatíveis com o terminal.
+* **main.cpp**: Interface de menu interativo e ponto de entrada.
+* **ppm.cpp / ppm.hpp**: Classe `ppm` que encapsula a lógica de I/O e processamento de imagem.
+* **ansi_colors.c / ansi_colors.h**: Biblioteca em C para manipulação de cores no terminal.
 
-## 📖 Modo de Uso
+## ⚙️ Como Compilar e Rodar
 
-1. Execute o programa: `./ppm_printer`.
-2. Digite o nome ou caminho do arquivo `.ppm` (ex: `imagem.ppm`).
-3. Utilize o menu para navegar entre as opções:
-    * **1. PRINT**: Visualiza a imagem no console.
-    * **2. SALVAR**: Exporta as alterações para um novo arquivo.
-    * **3. GREYSCALE**: Aplica o filtro de tons de cinza.
-    * **4-7. NEGATIVOS**: Aplica inversões de cor totais ou por canal.
+O projeto utiliza um **Makefile** para gerenciar a compilação híbrida (C e C++).
 
-## ⚠️ Requisitos e Recomendações
+1.  Certifique-se de ter o `make`, `gcc` e `g++` instalados.
+2.  No terminal, execute:
+    ```bash
+    make
+    ```
+3.  Execute o programa:
+    ```bash
+    ./ppm_printer
+    ```
 
-* **Terminal**: É necessário um terminal com suporte a **True Color (24-bit RGB)**.
-* **Zoom**: Recomenda-se retirar o zoom do terminal para uma melhor visualização.
-* **Memória**: O programa utiliza alocação dinâmica (`malloc`) para a matriz de pixels. Imagens muito grandes podem exigir muita RAM.
+## ⚠️ Requisitos
+
+* **Terminal**: Suporte a **True Color (24-bit RGB)**.
+* **Memória**: Utiliza `std::vector<std::vector<pixel>>` para alocação dinâmica segura.
