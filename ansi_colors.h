@@ -1,9 +1,12 @@
 #ifndef ANSI_COLORS_H
 #define ANSI_COLORS_H
-
 //biblioteca criada para facilitar a utilização do ccódigo ANSI para colorir o terminal
 //João Antônio Guerim Guasso
 // baseado em https://gist.github.com/JBlond/2fea43a3049b38287e5e9cefc87b2124
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 // Cores de texto
 #define TEXT_BLACK "\033[30m"
@@ -76,6 +79,10 @@ char* text_color(int r, int g, int b);
 #define AVOID_LINE_BREAK "\033[999C"
 
 // Reset
-#define RESET "\033[0m"
+#define RESET_CONSOLE "\033[0m"
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // ANSI_COLORS_H
